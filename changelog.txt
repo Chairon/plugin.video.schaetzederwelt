@@ -1,4 +1,16 @@
-v0.1
+v1.0.1
+* Improvements to get rid of timeout-problems opening URLs: catch timeout and retry urlopen() several times  
+* Caching Main Page to reduce redundant requests to get the topic URLs. 
+* Added Metadata in URL Request: User-Agent
+* addon.xml: added http:// to <website>, corrected first version number (0.1 -> 1.0.0)
+* Several code improvements
+* tbd. Kontextmenu: Markierung gesehener Sendungen ermöglichen
+* tbd. Fortschrittsbalken anzeigen
+* tbd. use xbmc.log() instead of print()
+
+
+
+v1.0.0
 - Initial version 
 
 Current Features
