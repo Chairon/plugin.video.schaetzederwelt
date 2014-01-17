@@ -105,7 +105,7 @@ def a_to_z_menu():
 
 @plugin.route('/video/<url>')
 def play_video(url):
-    videolink = htmlscraper.get_ActualURL_from_URL("http.*l\.mp4", url)
+    videolink = htmlscraper.get_video_from_url("http.*l\.mp4", url)
     if (videolink != None):
         plugin.log.info("Playing url: %s" % videolink)
         plugin.set_resolved_url(videolink)

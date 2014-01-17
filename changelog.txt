@@ -3,7 +3,7 @@ v1.0.1
 * Caching Main Page to reduce redundant requests to get the topic URLs. 
 * Added Metadata in URL Request: User-Agent
 * addon.xml: added http:// to <website>, corrected first version number (0.1 -> 1.0.0)
-* Several code improvements
+* Several code design improvements
 * tbd. Kontextmenu: Markierung gesehener Sendungen ermöglichen
 * tbd. Fortschrittsbalken anzeigen
 * tbd. use xbmc.log() instead of print()
