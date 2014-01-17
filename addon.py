@@ -36,7 +36,7 @@
 
 
 from xbmcswift2 import Plugin, xbmcgui
-from resources.lib import htmlscraper, localizer
+from resources.lib import htmlscraper
 import string
 
 

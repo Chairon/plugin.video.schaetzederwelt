@@ -36,7 +36,6 @@
 
 
 from urllib2 import urlopen, Request
-from resources.lib import localizer
 import re
 import socket
 from multiprocessing import TimeoutError
