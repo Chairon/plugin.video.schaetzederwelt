@@ -94,7 +94,7 @@ def scrape_a_to_z_per_regex(letter, url_for, endpoint):
              'is_playable' : True  
             } for m in pattern2.finditer(page, erg.start(), erg.end())]    
     
-    log(str(len(items)) + " Memorials gathered.")
+    log(str(len(items)) + " monuments gathered.")
     return items
 
 
@@ -130,9 +130,18 @@ def get_actual_from_baseurl(regexp):
         MAIN_PAGE_CACHE = get_content_from_url(MAIN_URL)
     
     log("using MAIN_PAGE_CACHE")    
-    url_mp4=re.search(regexp, MAIN_PAGE_CACHE)
-    if (url_mp4 != None):        
-        return url_mp4.group(0)
+    actual_url=re.search(regexp, MAIN_PAGE_CACHE)
+    if (actual_url != None):        
+        return actual_url.group(0)
+    else:
+        return None
+
+
+def get_video_from_url(regexp, url):                           
+    page = get_content_from_url(url)    
+    video_url=re.search(regexp, page)
+    if (video_url != None):        
+        return video_url.group(0)
     else:
         return None
 
