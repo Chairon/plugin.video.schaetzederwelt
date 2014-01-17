@@ -36,17 +36,18 @@
 
 
 from urllib2 import urlopen, Request
+from resources.lib import localizer
 import re
 import socket
 from multiprocessing import TimeoutError
 
 MAIN_URL = "http://www.swr.de/schaetze-der-welt/"
 REQUEST_HEADERS = {"User-Agent" : "Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)"}
-SOCKET_TIMEOUT = 2
+SOCKET_TIMEOUT = 1
 MAIN_PAGE_CACHE = None
 MAX_TIMEOUT_RETRIES = 20
 
-def scrape_topic_per_regex(topic, url_for, endpoint):
+def scrape_topic_per_regex(topic, url_for, endpoint, localizer):
     log("Scraping " + topic)
     page = get_content_from_url(get_actual_from_baseurl("http://www.swr.de/schaetze-der-welt/" + topic + "/.*.html"))
            
@@ -64,6 +65,8 @@ def scrape_topic_per_regex(topic, url_for, endpoint):
              #'fanart_image' : './fanart.jpg',
              # Beschreibung
              'info' : { 'plot' : m.group('desc')},
+             # Add watch toggle button manually
+             'context_menu' : [(localizer('toggle_watched'), 'XBMC.Action(ToggleWatched)')],
              'is_playable' : True
             } for m in pattern.finditer(page)]
     
@@ -72,7 +75,7 @@ def scrape_topic_per_regex(topic, url_for, endpoint):
     return items
 
 
-def scrape_a_to_z_per_regex(letter, url_for, endpoint):
+def scrape_a_to_z_per_regex(letter, url_for, endpoint, localizer):
     log("Scraping " + letter)
     page = get_content_from_url(get_actual_from_baseurl("http://www.swr.de/schaetze-der-welt/denkmaeler/.*.html"))
     pattern = re.compile('<p><a name=\"' + letter + '\"></a>' + letter + '</p>\n *<ul>\n *(<li><a href=\".*\".*</a></li>\n *)*')
@@ -91,6 +94,7 @@ def scrape_a_to_z_per_regex(letter, url_for, endpoint):
              'icon' : '', 
              # Beschreibung
              'info' : '',
+             'context_menu' : [(localizer('toggle_watched'), 'XBMC.Action(ToggleWatched)')],
              'is_playable' : True  
             } for m in pattern2.finditer(page, erg.start(), erg.end())]    
     
