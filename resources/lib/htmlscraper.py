@@ -38,7 +38,6 @@
 from urllib2 import urlopen, Request
 import re
 import socket
-from multiprocessing import TimeoutError
 
 MAIN_URL = "http://www.swr.de/schaetze-der-welt/"
 REQUEST_HEADERS = {"User-Agent" : "Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)"}
@@ -103,7 +102,7 @@ def scrape_a_to_z_per_regex(letter, url_for, endpoint, localizer):
 
 def get_content_from_url(url):
     request = Request(url, headers = REQUEST_HEADERS)
-    log("Timeout: " + str(socket.getdefaulttimeout()))
+    #log("Timeout: " + str(socket.getdefaulttimeout()))
     sitereached = False
     timeoutcounter = 0
     while not sitereached and timeoutcounter < MAX_TIMEOUT_RETRIES:
