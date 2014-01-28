@@ -33,17 +33,17 @@
 #     Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
 #     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 #
-
-
 from urllib2 import urlopen, Request
+import logging
 import re
 import socket
 
 MAIN_URL = "http://www.swr.de/schaetze-der-welt/"
 REQUEST_HEADERS = {"User-Agent" : "Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)"}
-SOCKET_TIMEOUT = 30
+SOCKET_TIMEOUT = 5
 MAIN_PAGE_CACHE = None
 MAX_TIMEOUT_RETRIES = 20
+logger = logging.getLogger('plugin.video.schaetzederwelt')
 
 def scrape_topic_per_regex(topic, url_for, endpoint, localizer):
     log("Scraping " + topic)
@@ -121,7 +121,7 @@ def get_content_from_url(url):
         raise socket.timeout        
                     
     log("URL opened: " + url)
-    return response.read()                       
+    return response.read()
 
 
 def get_actual_from_baseurl(regexp):
@@ -131,9 +131,9 @@ def get_actual_from_baseurl(regexp):
         log("Filling MAIN_PAGE_CACHE")                       
         MAIN_PAGE_CACHE = get_content_from_url(MAIN_URL)
     
-    log("using MAIN_PAGE_CACHE")    
+    log("using MAIN_PAGE_CACHE")
     actual_url=re.search(regexp, MAIN_PAGE_CACHE)
-    if (actual_url != None):        
+    if (actual_url != None):
         return actual_url.group(0)
     else:
         return None
@@ -147,9 +147,9 @@ def get_video_from_url(regexp, url):
     else:
         return None
 
-    
+
 def log(msg):
-    print('HtmlScraper: %s' % msg)
-    
+    logger.info('HtmlScraper: %s' % msg)
+
     
     

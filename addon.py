@@ -33,8 +33,6 @@
 #     Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
 #     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 #
-
-
 from xbmcswift2 import Plugin, xbmcgui
 from resources.lib import htmlscraper
 import string
