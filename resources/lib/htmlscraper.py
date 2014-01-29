@@ -46,11 +46,11 @@ MAX_TIMEOUT_RETRIES = 20
 logger = logging.getLogger('plugin.video.schaetzederwelt')
 
 def scrape_topic_per_regex(topic, url_for, endpoint, localizer):
-    log("Scraping " + topic)
+    log_info("Scraping " + topic)
     page = get_content_from_url(get_actual_from_baseurl("http://www.swr.de/schaetze-der-welt/" + topic + "/.*.html"))
            
     pattern = re.compile('teaser teaser-08 schaetze-der-welt\">(\n| )*<h2>(\n| )*<a href=\"(?P<url>.*)\">(\n| )*<img.*src=\"(?P<img>.*.jpg)\".*/>(\n| )*\t(\n| )*<span.*>(?P<titel1>(.*\n.*|.*)) *</span>(\n| )*<span.*>(?P<titel2>(.*\n.*|.*)) *</span>(\n| )*</a.*(\n| )*</h2.*(\n| )*<div.*(\n| )*<p>(?P<desc>.*)(\n| )*<a')    
-    log("RegEx processed, gathering videos...")
+    log_info("RegEx processed, gathering videos...")
             
     items = [{
              # Kurztext, Titel
@@ -68,19 +68,19 @@ def scrape_topic_per_regex(topic, url_for, endpoint, localizer):
              'is_playable' : True
             } for m in pattern.finditer(page)]
     
-    log(str(len(items)) + " Videos gathered.")
+    log_info(str(len(items)) + " Videos gathered.")
     items.sort(key=lambda video: video['label'])
     return items
 
 
 def scrape_a_to_z_per_regex(letter, url_for, endpoint, localizer):
-    log("Scraping " + letter)
+    log_info("Scraping " + letter)
     page = get_content_from_url(get_actual_from_baseurl("http://www.swr.de/schaetze-der-welt/denkmaeler/.*.html"))
     pattern = re.compile('<p><a name=\"' + letter + '\"></a>' + letter + '</p>\n *<ul>\n *(<li><a href=\".*\".*</a></li>\n *)*')
     erg = pattern.search(page)    
     pattern2 = re.compile('<li><a href=\"(?P<url>.*)\">(?P<text>.*)</a></li>')
-    log("RexEx processed, gathering monuments for letter " + letter)
-    #log(pattern2.findall(page, erg.start(), erg.end()))    
+    log_info("RexEx processed, gathering monuments for letter " + letter)
+    #log_info(pattern2.findall(page, erg.start(), erg.end()))    
     
     items = [{
              # Kurztext, Titel
@@ -96,13 +96,13 @@ def scrape_a_to_z_per_regex(letter, url_for, endpoint, localizer):
              'is_playable' : True  
             } for m in pattern2.finditer(page, erg.start(), erg.end())]    
     
-    log(str(len(items)) + " monuments gathered.")
+    log_info(str(len(items)) + " monuments gathered.")
     return items
 
 
 def get_content_from_url(url):
     request = Request(url, headers = REQUEST_HEADERS)
-    #log("Timeout: " + str(socket.getdefaulttimeout()))
+    #log_info("Timeout: " + str(socket.getdefaulttimeout()))
     sitereached = False
     timeoutcounter = 0
     while not sitereached and timeoutcounter < MAX_TIMEOUT_RETRIES:
@@ -110,17 +110,17 @@ def get_content_from_url(url):
             response = urlopen(request, timeout = SOCKET_TIMEOUT)
             sitereached = True
         except socket.timeout:
-           log("Timeout (" + str(SOCKET_TIMEOUT) + " sec) reached accessing " + url)
+           log_info("Timeout (" + str(SOCKET_TIMEOUT) + " sec) reached accessing " + url)
            timeoutcounter+=1            
         except Exception,e:
-            log("Exception " + str(e) + " accessing URL " + url)
+            log_info("Exception " + str(e) + " accessing URL " + url)
             raise e
     if (timeoutcounter == MAX_TIMEOUT_RETRIES):
-        log("Limit for retries after timeout reached: " + str(MAX_TIMEOUT_RETRIES))
-        log("Site may be down?")
+        log_info("Limit for retries after timeout reached: " + str(MAX_TIMEOUT_RETRIES))
+        log_info("Site may be down?")
         raise socket.timeout        
                     
-    log("URL opened: " + url)
+    log_info("URL opened: " + url)
     return response.read()
 
 
@@ -128,10 +128,10 @@ def get_actual_from_baseurl(regexp):
     global MAIN_PAGE_CACHE
     
     if (MAIN_PAGE_CACHE == None):
-        log("Filling MAIN_PAGE_CACHE")                       
+        log_debug("Filling MAIN_PAGE_CACHE")                       
         MAIN_PAGE_CACHE = get_content_from_url(MAIN_URL)
     
-    log("using MAIN_PAGE_CACHE")
+    log_debug("using MAIN_PAGE_CACHE")
     actual_url=re.search(regexp, MAIN_PAGE_CACHE)
     if (actual_url != None):
         return actual_url.group(0)
@@ -148,8 +148,10 @@ def get_video_from_url(regexp, url):
         return None
 
 
-def log(msg):
+def log_info(msg):
     logger.info('HtmlScraper: %s' % msg)
 
+def log_debug(msg):
+    logger.debug('HtmlScraper: %s' % msg)
     
     
