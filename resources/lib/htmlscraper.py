@@ -40,7 +40,7 @@ import socket
 
 MAIN_URL = "http://www.swr.de/schaetze-der-welt/"
 REQUEST_HEADERS = {"User-Agent" : "Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)"}
-SOCKET_TIMEOUT = 5
+SOCKET_TIMEOUT = 30
 MAIN_PAGE_CACHE = None
 MAX_TIMEOUT_RETRIES = 20
 logger = logging.getLogger('plugin.video.schaetzederwelt')
