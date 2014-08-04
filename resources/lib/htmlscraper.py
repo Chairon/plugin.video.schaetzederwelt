@@ -52,10 +52,10 @@ kontinente_und_anderes = ['Europa', 'Afrika', 'Amerika', 'Australien', 'Asien', 
      
 def build_menuitems(url_for, endpoint, localizer):
     
-    log_info("Oeffne Showseite ...")
+    #log_info("Oeffne Showseite ...")
     page = get_content_from_url(MAIN_URL)
     
-    log_info("Hole alle Ids der einzelnen Sendungen ...")
+    #log_info("Hole alle Ids der einzelnen Sendungen ...")
     pattern = regex_pattern_for_items()
     
     items = []
@@ -71,7 +71,7 @@ def build_menuitems(url_for, endpoint, localizer):
     
     items.sort(key=lambda video: video['label'])
     log_info("Anzahl Videos: " + str(len(items)))
-    log_info("Videos: " + str(items))    
+    #log_info("Videos: " + str(items))
     return items
 
 
