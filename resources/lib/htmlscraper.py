@@ -87,7 +87,7 @@ def enrich_title(title):
     else:
         land = 'ungeordnet'
     #return '{0}: {1}'.format(land, title).encode('utf-8')
-    return land + ': ' + title
+    return land + ' - ' + title
     
     
 def get_json_for_ekey(ekey):
