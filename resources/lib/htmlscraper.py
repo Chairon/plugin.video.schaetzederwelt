@@ -59,15 +59,15 @@ def build_menuitems(url_for, endpoint, localizer):
     #Ermittle Seitengesamtanzahl
     pattern = re.compile('<a title=\"letzte Seite\" href=\"/tvshow.htm\?show=945f9950-cc74-11df-9bbb-0026b975f2e6\&pc=(?P<maxPages>.*)\">\&gt;\&gt;</a>')
     m = pattern.search(page)
-    maxPages = m.group('maxPages')
-    log_info("Seitengesamtanzahl: " + m.group('maxPages'))
+    maxPages = int(m.group('maxPages')) + 1
+    log_info("Seitengesamtanzahl: " + str(maxPages))
     
 
     #log_info("Hole alle Ids der einzelnen Sendungen ...")
     pattern = regex_pattern_for_items()
     items = []
          
-    for pc in range (0, int(maxPages)):
+    for pc in range (0, maxPages):
         log_info("Oeffne Seite ..." + str(pc))
         page = get_content_from_url(MAIN_URL + '&pc=' + str(pc))
              
