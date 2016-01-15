@@ -1,3 +1,6 @@
+v3.0.2
+* Parser updated due to site redesign
+
 v3.0.1
 * Corrected parsed pages range
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#     Copyright (C) 2013-2015 CHF (chrifri@gmx.de)
+#     Copyright (C) 2013-2016 CHF (chrifri@gmx.de)
 #     
 #     This file is part of the XBMC Add-on: plugin.video.schaetzederwelt
 #     
@@ -130,7 +130,9 @@ def get_json_for_ekey(ekey):
         elif(item['name'] == 'entry_media'):            
             if (item['attr']['val0'] == 'h264' and item['attr']['val1'] == '3'):
                url =  item['attr']['val2']
-            
+            elif (item['attr']['val0'] == 'm3u8' and item['attr']['val1'] == '3'):
+               if (item['attr']['val2'][-6:] == '.l.mp4'):
+                  url =  item['attr']['val2']
 
     if (kontinent is None):
         kontinent = ''
